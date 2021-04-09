@@ -1,8 +1,11 @@
 import axios from 'axios';
 import apiUrl from './apiUrl';
 
+const appAxiosInstance = axios.create({
+  baseURL: apiUrl.BASE_URL,
+})
 //request interceptor that will add auth token to every request
-axios.interceptors.request.use(function (config) {
+appAxiosInstance.interceptors.request.use(function (config) {
   //get user token and add it to header config
   // const token = UserStore.getAccessToken();
   // if(token){
@@ -19,7 +22,7 @@ export function AppWebRequest(endUrl, method, config) {
       baseURL: apiUrl.BASE_URL,
     };
     const finalConfig = Object.assign(defaultConfig, config || {});
-    axios(finalConfig)
+    appAxiosInstance(finalConfig)
       .then((response) => {
         console.log('response', response);
         resolve(response.data);
